@@ -1,1 +1,27 @@
-npm install remix-json-routes
+const { jsonRoutes } = require("remix-json-routes");
+
+/** @type {import('@remix-run/dev').AppConfig} */
+module.exports = {
+  // Note this ignores everything in routes/ giving you complete control over
+  // your routes.  If you want to define routes in addition to what's in routes/,
+  // change this to "ignoredRouteFiles": ["**/.*"].
+  ignoredRouteFiles: ["**/*"],
+  routes(defineRoutes) {
+    return jsonRoutes(defineRoutes, [
+      {
+        path: "/",
+        file: "routes/layout.tsx",
+        children: [
+          {
+            index: true,
+            file: "routes/some/path/to/home.tsx",
+          },
+          {
+            path: "about",
+            file: "routes/some/path/to/about.tsx",
+          },
+        ],
+      },
+    ]);
+  },
+};
